@@ -15,7 +15,6 @@ import trainingdata
 
 classifier = [
     KNeighborsClassifier(),
-    SVC(probability=True, gamma=0.001),
     DecisionTreeClassifier(),
     RandomForestClassifier(),
     AdaBoostClassifier(),
@@ -23,7 +22,8 @@ classifier = [
     GaussianNB(),
     LinearDiscriminantAnalysis(),
     QuadraticDiscriminantAnalysis(),
-    LogisticRegression()
+    LogisticRegression(),
+    SVC(probability=True, gamma=0.001),
 ]
 
 acc_dict = {}
