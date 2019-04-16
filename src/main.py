@@ -15,7 +15,7 @@ import trainingdata
 
 classifier = [
     KNeighborsClassifier(),
-    SVC(probability=True, gamma='scale'),
+    SVC(probability=True, gamma=0.001),
     DecisionTreeClassifier(),
     RandomForestClassifier(),
     AdaBoostClassifier(),
