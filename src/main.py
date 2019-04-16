@@ -23,7 +23,7 @@ classifier = [
     LinearDiscriminantAnalysis(),
     QuadraticDiscriminantAnalysis(),
     LogisticRegression(),
-    SVC(probability=True, gamma=0.001),
+    # SVC(probability=True, gamma=0.001),
 ]
 
 acc_dict = {}
