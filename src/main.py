@@ -58,7 +58,7 @@ for train_index, test_index in sss.split(trainX, trainY):
         else:
             acc_dict[name] = auc
 
-for clf in acc_dict:
+for clf in classifier:
     name = clf.__class__.__name__
     acc_dict[name] = acc_dict[name] / 10.0
 
