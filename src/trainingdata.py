@@ -9,6 +9,7 @@ from processor import filterAllSameCols
 from processor import split209Datatime
 from processor import split247Dash
 from processor import dropId
+from processor import scaleToStandard
 
 def before_hook(df):
     for col in df.columns:
@@ -47,7 +48,9 @@ def getPreProcessed():
 
     dropId(dataset)
 
-    return train, test
+    scaleToStandard(dataset)
+
+    return tuple(dataset)
 
 
 if __name__ == '__main__':

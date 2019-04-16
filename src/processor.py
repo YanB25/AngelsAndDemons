@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+from sklearn import preprocessing
 
 from util import strColumns
 from util import allSameCol
@@ -125,6 +127,22 @@ def filterAllSameCols(dataset):
     azci = azc.index[azc] # a list of index that azc is true
     for data in dataset:
         data.drop(azci, 'columns', inplace=True)
+
+def scaleToStandard(dataset):
+    print('stardardize to 0-mean and 1-var ...')
+    ret = []
+    for idx, df in enumerate(dataset):
+        val = df.values
+        # scale to [0, 1]
+        min_max_scaler = preprocessing.MinMaxScaler()
+        val_range = min_max_scaler.fit_transform(val)
+
+        # scale to 0-means and 1-std
+        val_scaled = preprocessing.scale(val_range)
+        dataset[idx] = pd.DataFrame(val_scaled, columns=df.columns)
+
+
+
 
 # 209列是日期
 # 247列是 a-b-c型数据
