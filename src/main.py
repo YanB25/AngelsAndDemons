@@ -39,7 +39,11 @@ trainY = trainY.values.reshape(-1)
 
 print(trainY.sum())
 
+times = 0
+
 for train_index, test_index in sss.split(trainX, trainY):
+    times += 1
+    print('---- begin round {} ----'.format(times))
     sub_X_train, sub_X_test = trainX[train_index], trainX[test_index]
     sub_Y_train, sub_Y_test = trainY[train_index], trainY[test_index]
 
