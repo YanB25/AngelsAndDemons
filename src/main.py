@@ -65,13 +65,13 @@ def lightgbm_clissify(trainX, trainY, testX, sss):
         sub_Y_train, sub_Y_test = trainY[train_index], trainY[test_index]
 
         lgb_train = lgb.Dataset(sub_X_train, sub_Y_train)
-        # lgb_eval = lgb.Dataset(sub_X_test, sub_Y_test, reference=lgb_train)
+        lgb_eval = lgb.Dataset(sub_X_test, sub_Y_test, reference=lgb_train)
 
         params = {
             'boosting_type': 'gbdt',
             'objective': 'binary',
             'metric': {'auc'},
-            'num_leaves': 10,
+            'num_leaves': 160,
             # 'learning_rate': 0.05,
             'feature_fraction': 0.9,
             'bagging_fraction': 0.8,
@@ -82,17 +82,18 @@ def lightgbm_clissify(trainX, trainY, testX, sss):
         gbm = lgb.train(
             params, 
             lgb_train, 
-            learning_rates=lambda iter: 0.05 * (0.99 ** iter),
-            num_boost_round=400, 
-            valid_sets=lgb_train, 
-            early_stopping_rounds=5)
+            learning_rates=lambda iter: 0.1 * (0.995 ** (iter / 10)),
+            # learning_rates=lambda iter: 0.05,
+            num_boost_round=3000, 
+            valid_sets=lgb_eval, 
+            early_stopping_rounds=100)
 
         print('saving models ...')
         gbm.save_model('model/{}-model.gbm.txt'.format(times))
 
         y_pred = gbm.predict(sub_X_test, num_iteration=gbm.best_iteration)
-        y_pred_binary = np.where(y_pred >= 0.5, 1, 0)
-        auc += roc_auc_score(sub_Y_test, y_pred_binary)
+        # y_pred_binary = np.where(y_pred >= 0.5, 1, 0)
+        auc += roc_auc_score(sub_Y_test, y_pred)
 
         break
     
@@ -110,7 +111,7 @@ if __name__ == '__main__':
     testX = testX.values
     trainY = trainY.values.reshape(-1)
 
-    sss = StratifiedShuffleSplit(n_splits=10, test_size=0.2, random_state=0)
+    sss = StratifiedShuffleSplit(n_splits=10, test_size=0.1, random_state=0)
 
     # sklearn_clissifiers(trainX, trainY, testX, sss)
 

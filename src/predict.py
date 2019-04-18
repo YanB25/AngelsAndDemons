@@ -5,7 +5,7 @@ from trainingdata import getPreProcessed
 from trainingdata import readSubmitTemplate
 
 if __name__ == '__main__':
-    bst = lgb.Booster(model_file='model/10-model.gbm.txt')
+    bst = lgb.Booster(model_file='model/0-model.gbm.txt')
     _, testX = getPreProcessed()
 
     y_pred = bst.predict(testX)
@@ -15,4 +15,6 @@ if __name__ == '__main__':
     # submitTemplate['label'] = pd.Series(y_pred_binary)
     submitTemplate['label'] = pd.Series(y_pred)
 
-    submitTemplate.to_csv('../data/submit-nobinary.lgb.csv', index=False)
+    name = '../data/better-150leveas.lgb.csv'
+    submitTemplate.to_csv(name, index=False)
+    print('successfully write to {}'.format(name))

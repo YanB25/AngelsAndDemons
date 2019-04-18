@@ -6,9 +6,19 @@ from util import strColumns
 from util import allSameCol
 
 def fillEmpty(dataset):
-    print("fill NaN to 0 ...")
+    print("fill NaN to their mean ...")
     for data in dataset:
-        data.fillna(0, inplace=True)
+        for col in data.columns:
+            try:
+                mean = data[col].fillna(0).mean()
+                print('column {} fill to mean {}'.format(col, mean))
+                data[col].fillna(mean, inplace=True)
+            except:
+                mean = data[col].value_counts().index[0]
+                print('column {} not able to fill to mean. fall back to most occurance{}'.format(col, mean))
+                data[col].fillna(mean, inplace=True)
+
+        # data.fillna(0, inplace=True)
 
 def split209Datatime(dataset):
     print('(col 209) spliting data time yyyy-mm-dd-hh.mm.ss.000000 ...')
