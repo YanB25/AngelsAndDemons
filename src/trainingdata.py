@@ -30,6 +30,13 @@ def readTarget():
     trainY.drop(['Id'], 'columns', inplace=True)
     return trainY
 
+def readTest():
+    test = pd.read_csv('../data/test.csv', header=None)
+    return test
+
+def readSubmitTemplate():
+    return pd.read_csv('../data/submissionExample.csv')
+
 
 def getPreProcessed():
     train, test = readData()
