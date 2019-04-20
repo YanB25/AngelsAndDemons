@@ -1,0 +1,621 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Programming/Coding Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+% This template uses a Perl script as an example snippet of code, most other
+% languages are also usable. Configure them in the "CODE INCLUSION 
+% CONFIGURATION" section.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper]{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage[usenames,dvipsnames]{color} % Required for custom colors
+\usepackage{graphicx} % Required to insert images
+\usepackage{listings} % Required for insertion of code
+\renewcommand*{\lstlistingname}{代码} % change "Listing <ref> to 代码 <ref>
+\usepackage{courier} % Required for the courier font
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage[UTF8]{ctex} % Required for Chinese character
+\usepackage{tocloft} % Required for beautiful toc
+\usepackage[colorlinks]{hyperref} % Required for clickable toc
+\hypersetup{
+    colorlinks=false,
+    citecolor=red,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black,
+    linkbordercolor	= {1 0 0}
+}
+\usepackage[title]{appendix} % Required for appendix
+\usepackage{float}
+\usepackage{amsmath} % used for \text{} in math formula
+
+
+% used for beautiful table
+\usepackage{booktabs} 
+\usepackage[T1]{fontenc}
+\usepackage{tabu}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+%used for beautiful order list
+\usepackage{enumitem}
+
+\def\equationautorefname{式}%
+\def\footnoteautorefname{脚注}%
+\def\itemautorefname{项}%
+\def\figureautorefname{图}%
+\def\tableautorefname{表}%
+\def\partautorefname{篇}%
+\def\appendixautorefname{附录}%
+\def\chapterautorefname{章}%
+\def\sectionautorefname{节}%
+\def\subsectionautorefname{小节}%
+\def\subsubsectionautorefname{subsubsection}%
+\def\paragraphautorefname{段落}%
+\def\subparagraphautorefname{子段落}%
+\def\FancyVerbLineautorefname{行}%
+\def\theoremautorefname{定理}%
+\def\algorithmautorefname{算法}
+\let\subsubsectionautorefname\sectionautorefname
+
+% TODO:
+\newcommand{\aref}[1]{\hyperref[#1]{附录~\ref{#1}}}
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName} % Top left header
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle} % Top center head
+\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \protect\pageref*{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	CODE INCLUSION CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+\definecolor{MyDarkGreen}{rgb}{0.0,0.4,0.0} % This is the color used for comments
+% \lstloadlanguages{c} % Load Perl syntax for listings, for a list of other languages supported see: ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/listings/listings.pdf
+% \lstset{language=sql, % Use Perl in this example
+%         frame=single, % Single frame around code
+%         basicstyle=\small\ttfamily, % Use small true type font
+%         keywordstyle=[1]\color{Blue}, % Perl functions bold and blue
+%         keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+%         keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+%         identifierstyle=, % Nothing special about identifiers                                         
+%         commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+%         stringstyle=\color{Purple}, % Strings are purple
+%         showstringspaces=false, % Don't put marks in string spaces
+%         tabsize=4, % 5 spaces per tab
+%         %
+%         % Put standard Perl functions not included in the default language here
+%         % morekeywords={rand},
+%         morekeywords={rand, go},
+%         %
+%         % Put Perl function parameters here
+%         morekeywords=[2]{REAL},
+%         %
+%         % Put user defined functions here
+%         morekeywords=[3]{},
+%        	%
+%         morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+%         numbers=left, % Line numbers on left
+%         firstnumber=1, % Line numbers start with line 1
+%         numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+%         stepnumber=2, % Line numbers go in steps of 5,
+%         firstnumber=1
+% }
+
+\lstloadlanguages{Python}
+\lstdefinestyle{mypython}{
+    language=Python, % Use Perl in this example
+    frame=single, % Single frame around code
+    basicstyle=\small\ttfamily, % Use small true type font
+    keywordstyle=[1]\color{Blue}, % Perl functions bold and blue
+    keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+    keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+    keywordstyle=[4]\color{Aquamarine}, % Custom functions underlined and blue
+    identifierstyle=, % Nothing special about identifiers                                         
+    commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+    stringstyle=\color{Purple}, % Strings are purple
+    showstringspaces=false, % Don't put marks in string spaces
+    tabsize=4, % 5 spaces per tab
+    %
+    % Put standard Perl functions not included in the default language here
+    % morekeywords={rand},
+    morekeywords={go, REFERENCES, DATABASE, SCHEMA},
+    %
+    % Put Perl function parameters here
+    morekeywords=[4]{np},
+    %
+    % Put user defined functions here
+    morekeywords=[1]{self},
+    morekeywords=[3]{},
+    %
+    morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+    numbers=left, % Line numbers on left
+    firstnumber=1, % Line numbers start with line 1
+    numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+    stepnumber=2, % Line numbers go in steps of 5,
+    firstnumber=1
+}
+
+
+\lstloadlanguages{bash}
+\lstdefinestyle{myshell}{
+    language=bash, % Use Perl in this example
+    frame=single, % Single frame around code
+    basicstyle=\small\ttfamily, % Use small true type font
+    keywordstyle=[1]\color{Blue}, % Perl functions bold and blue
+    keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+    keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+    keywordstyle=[4]\color{Aquamarine}, % Custom functions underlined and blue
+    identifierstyle=, % Nothing special about identifiers                                         
+    commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+    stringstyle=\color{Purple}, % Strings are purple
+    showstringspaces=false, % Don't put marks in string spaces
+    tabsize=4, % 5 spaces per tab
+    %
+    % Put standard Perl functions not included in the default language here
+    % morekeywords={rand},
+    morekeywords={go, REFERENCES, DATABASE, SCHEMA},
+    %
+    % Put Perl function parameters here
+    morekeywords=[4]{np},
+    %
+    % Put user defined functions here
+    morekeywords=[1]{self},
+    morekeywords=[3]{},
+    %
+    morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+    numbers=left, % Line numbers on left
+    firstnumber=1, % Line numbers start with line 1
+    numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+    stepnumber=2, % Line numbers go in steps of 5,
+    firstnumber=1
+}
+
+
+% Creates a new command to include a perl script, the first parameter is the filename of the script (without .pl), the second parameter is the caption
+
+\newcommand{\shfilescript}[3]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2, label=lst:#1, language=sh]{#3}
+\end{itemize}
+}
+\newcommand{\shscript}[3]{
+\begin{itemize}
+\item[]\begin{lstlisting}[label=lst:#1, caption=#2] #3 \end{lstlisting}
+\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 见下页\ldots}\nobreak{} 
+\nobreak\extramarks{接上页}{#1 见下页\ldots}\nobreak{}
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{接上页}{#1 见下页\ldots}\nobreak{}
+\nobreak\extramarks{#1}{}\nobreak{}
+}
+% TODO:code here enable the number before section, but it disable the numbering of problems
+%\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+
+\newcommand{\homeworkProblemName}{}
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+
+\newcommand{\codev}[1]{\textsf{#1}}
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+% table color
+\definecolor{tableHeader}{RGB}{245, 245, 245}
+\definecolor{tableLineOne}{RGB}{245, 245, 245}
+\definecolor{tableLineTwo}{RGB}{224, 224, 224}
+\newcommand{\tableHeaderStyle}{
+    \rowfont{\leavevmode\color{white}\bfseries}
+    \rowcolor{tableHeader}
+}
+
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Kaggle实验报告\ } % Assignment title
+\newcommand{\hmwkDueDate}{Friday,\ April\ 26,\ 2018} % Due date
+\newcommand{\hmwkClass}{16级计科\ 7班} % Course/class
+\newcommand{\hmwkClassTime}{周五7-8节} % Class/lecture time
+\newcommand{\hmwkClassInstructor}{潘嵘} % Teacher/lecturer
+\newcommand{\hmwkAuthorName}{颜彬} % Your name
+\newcommand{\hmwkAuthorId}{16337269} % Your id 
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\usepackage{titling}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\textbf{\LARGE{\hmwkAuthorName}} \\ \\ \textbf{\LARGE{\hmwkAuthorId}}}
+\date{} % Insert date here if you want it to appear below your name
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+% \begin{titlingpage} % This is for ignore page number in first page. package titling
+
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+% \setcounter{tocdepth}{2} % Uncomment this line if you don't want subsections listed in the ToC
+% set depth in toc
+
+% \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % used for dots between <section> and <page>
+
+\renewcommand{\contentsname}{Content} % force the word to be "content
+\newpage
+\tableofcontents
+\addtocontents{toc}{~\hfill\textbf{Page}\par}
+\newpage
+
+% below are document body
+
+
+% To have just one problem per page, simply put a \clearpage after each problem
+\section{实验环境}
+\subsection{环境简介}
+本实验所使用的编程语言是Python 3.7.1。实验环境是macOS Mojave(10.14.4)。由于
+Python语言的跨平台特性，本实验的代码理应能运行在任何的平台之上。 \\
+
+\subsection{环境安装}
+假设系统已预装conda。使用\autoref{lst:install}所示的方式安装环境。
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=myshell, label=lst:install, caption=安装环境的方式]
+cd AngelsAndDemons
+conda create -f environment.yaml
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+\section{代码介绍}
+\subsection{流程简介}
+在本次项目中，首先需要读取数据，然后按\autoref{subsec:pre}所介绍的
+步骤进行数据预处理和特征工程。最后按照\autoref{subsec:train}所介绍
+的步骤进行模型训练。\\
+
+数据预处理指的是对不符合要求的数据的预先处理，使其符合模型的输入要求。
+例如大多数模型都要求输入是一个数值矩阵。预处理需要将训练集中所有的数据类型
+都转换成数值类型，同时为空值和NaN值填补上缺省值。\\
+
+特征工程指的是从已有的特征中挖掘出新的特征。例如假设特征满足
+\emph{yyyy-mm-dd-ss.000000}的模式。显然如果将该特征按``-''和``.''
+将特征分成5个部分时，前四个部分分别表示年、月、日和秒，而第五个部分永远为000000。
+这样，新的4个特征就从这个旧的特征中挖掘出来了。\\
+
+模型训练中，采用了sci-kit learn和lightgbm两个库进行训练。
+
+\subsection{数据预处理和特征工程}\label{subsec:pre}
+文件src/processor.py中定义了一系列函数，用于进行数据的预处理。
+整个预处理的过程就是这些函数的一个排列和组合。
+
+\subsubsection{填补空值}
+对于输入中的数值类型，可以直接采用所有特征的均值来填补空值。
+但是注意到输入特征中有大部分特征的类型是字符串。我们无法为字符串定义
+均值，故采用字符串出现次数最多的一类来填补空值。\\
+
+如\autoref{lst:fillemp}所示。当mean无法计算成功时，会抛出异常，
+改为使用出现次数最多的字符串。
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:fillemp, caption=填补空值的过程]
+def fillEmpty(data):
+    try:
+        mean = data[col].fillna(0).mean()
+        print('column {} fill to mean {}'.format(col, mean))
+        data[col].fillna(mean, inplace=True)
+    except:
+        mean = data[col].value_counts().index[0]
+        data[col].fillna(mean, inplace=True)
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+
+\subsubsection{分解特征}\label{subsec:split}
+第209列和247列是十分特殊的两个列。特殊点在于，他们的类型都是字符串，
+且测试集中出现了训练集里没出现过的值。\\
+
+这暗示了，这两列的值是具有含义的，所以他们很可能是难以枚举的。\\
+
+分解特征的处理方式是，单独取出这两列，使用split函数将字符串分割，然后
+为数据集加上分割后得到的内容。同时把这两列从数据集中删掉。\\
+
+以第209列为例(特征的含义是日期)，如\autoref{lst:split}所示。
+
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:split, caption=对209列的特征工程处理]
+def split209Datatime(dataset):
+    for df in dataset:
+        dt_col = df[209] # the 209th column is to be split
+
+        def getYear(s):
+            return int(s.split('-')[0])
+        def getMonth(s):
+            # print('s is {}, split is {}'.format(s, s.split('-')[1]))
+            return int(s.split('-')[1])
+        def getDay(s):
+            return int(s.split('-')[2])
+        def getHour(s):
+            return int(s.split('-')[3].split('.')[0])
+        def getMin(s):
+            return int(s.split('-')[3].split('.')[1])
+        def getSec(s):
+            return int(s.split('-')[3].split('.')[2])
+        
+        df['year'] = dt_col.apply(getYear)
+        df['month'] = dt_col.apply(getMonth)
+        df['day'] = dt_col.apply(getDay)
+        df['hour'] = dt_col.apply(getHour)
+        df['minute'] = dt_col.apply(getMin)
+        df['second'] = dt_col.apply(getSec)
+
+        df.drop([209], 'columns', inplace=True)
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+
+\subsubsection{字符串转整数}\label{subsec:toint}
+字符串是没有办法被后续模型所处理的。一个简单的方法是将字符串$s$使用
+$f$映射成整数$i$，且满足
+\begin{itemize}
+    \item 当$s = s'$时，$f(s) = f(s')$
+    \item 当$s \ne s'$时，$f(s) \ne f(s')$
+\end{itemize}
+这样的优点是把所有的字符串转换成了一个整数，且该整数能一定程度上代表字符串
+的特征。\\
+
+这样的缺点也很明显，就是数值之间的大小关系并不反映两个例子之间的关系。
+例如字符串$s_1, s_2, s_3$被映射到了1, 2, 10。并不代表$s_1$和
+$s_2$更接近，也不代表$s_1$和$s_3$更远。\\
+
+代码如\autoref{lst:map}所示。当一个字符串首次出现时，递增地
+为其分配一个整数。当这个字符串第二次出现时，返回相同的整数。
+
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:map, caption=字符串转整数的代码]
+def string2int(dataset):
+    '''
+    string2int convert string fields in df to int.
+    '''
+    print('convert all string fields to int ...')
+    s = strColumns(dataset[0])
+    for colIdx in s:
+        names = {}
+        last = 0
+        partial = dataset[0][colIdx]
+        for name in partial:
+            if name not in names:
+                names[name] = last
+                last += 1
+
+        def convertor(name):
+            try:
+                return int(names[name])
+            except:
+                print('[WARNING] {} not in converting dict'.format(name))
+                return -1
+        for df in dataset:
+            df[colIdx] = df[colIdx].apply(convertor)
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+
+\subsubsection{删去id和删去等值特征}
+id这个列应该被删去，否则很容易产生过拟合现象。这是因为，使用id来直接分类，
+必定能达到训练集分类准确度100\%的效果，但这没有任何意义。\\
+
+等值特征是指训练集和测试集中这个特征的每个样例的取值都相等的特征。
+例如有某些特征，所有样例的取值都是0。这个特征在训练中是没有意义的。
+再例如，\autoref{subsec:split}中提取了新的特征``年份''。但实际上
+提取后才发现，所有样例的年份的取值都是2009。这个特征也是毫无意义的。\\
+
+删去等值特征的方法是采用describe函数。由于\autoref{subsec:toint}
+已经将所有的字符串转换成整数了，如果一个特征是等值特征，那么必定每个
+样例在该特征下最小值会等于最大值。使用pandas.describe函数得到
+每个特征的最小值和最大值。删除最小值等于最大值的特征。\\
+
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:del, caption=删去id和删去等值特征]
+def dropId(dataset):
+    for df in dataset:
+        df.drop([0], 'columns', inplace=True)
+        
+
+def filterAllSameCols(dataset):
+    azc = allSameCol(dataset[0])
+    for data in dataset:
+        azc_cur = allSameCol(data)
+        azc = np.logical_and(azc, azc_cur)
+    azci = azc.index[azc] # a list of index that azc is true
+    for data in dataset:
+        data.drop(azci, 'columns', inplace=True)
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+
+\subsubsection{数据标准化}
+通过describe函数也发现了，数据的均值和方差差别很大。例如有一列
+的数量级在$10^10 - 10^11$，但是它的range却并不大。这提示了我们
+可以通过对数据标准化来整理数据。\\
+
+使用\autoref{lst:scale}的方法来标准化。值得注意的是，由于有些特征
+的值比较大，在直接运行scale函数时，会报错。所以首先先进行range标准化，
+把数据拉伸到0-1的范围内，再进行scale。
+
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:scale, caption=数据标准化]
+def scaleToStandard(dataset):
+    print('stardardize to 0-mean and 1-var ...')
+    ret = []
+    for idx, df in enumerate(dataset):
+        val = df.values
+        # scale to [0, 1]
+        min_max_scaler = preprocessing.MinMaxScaler()
+        val_range = min_max_scaler.fit_transform(val)
+
+        # scale to 0-means and 1-std
+        val_scaled = preprocessing.scale(val_range)
+        dataset[idx] = pd.DataFrame(val_scaled, columns=df.columns)
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+
+\subsection{模型训练}\label{subsec:train}
+本实验主要采用lightGBM模型来进行训练，并取得了比较好的拟合效果。
+在public榜单上超过2天获得auc为0.98652的成绩(rank 5)。
+\section{相关解释}
+lightGBM是 GBDT  的一个
+更优良的实现。\\
+
+GBDT(Gradient Boosting Decision Tree)是机器学习中的一个著名
+的模型。它的主要思想为训练出若干个弱分类器，给予弱分类器一定的权重，
+通过某种方式综合弱分类器的决策，产生最终的结果。这样，这些弱分类器就
+成为了强分类器。\\
+
+lightGBM(light Gradient Boosting Machin)是一个实现了GBDT
+算法的框架。它具有更快的训练速度，更低的内存消耗和更好的准确率
+等优势。
+\subsection{过拟合的防止}
+过拟合的防止方式有很多种。
+\subsubsection{验证集}
+可以采用验证集的方式，让lightGBM在发现无法在验证集上获得更好的效果时，及时停止训练(early stop)。\\
+
+如\autoref{lst:valid}所示。按照一定的比例划分出train\_index和test\_index，然后根据
+test\_index得到验证集。把验证集给予lightGBM，让其决定训练程度。
+
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:valid, caption=验证集防止过拟合]
+def lightgbm_clissify(trainX, trainY, testX, sss):
+    times = 0
+    auc = 0
+    for train_index, test_index in sss.split(trainX, trainY):
+        sub_X_train, sub_X_test = trainX[train_index], trainX[test_index]
+        sub_Y_train, sub_Y_test = trainY[train_index], trainY[test_index]
+
+        lgb_train = lgb.Dataset(sub_X_train, sub_Y_train)
+        lgb_eval = lgb.Dataset(sub_X_test, sub_Y_test, reference=lgb_train)
+
+        params = {
+            # ...
+        }
+
+        gbm = lgb.train(
+            params, 
+            lgb_train, 
+            learning_rates=lambda iter: 0.1 * (0.995 ** (iter / 10)),
+            num_boost_round=3000, 
+            valid_sets=lgb_eval, 
+            early_stopping_rounds=100)
+        # ...
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+\subsubsection{调整验证集大小}
+验证集如果太小，很可能模型发生了过拟合却无法及时发现。这在我的实验中发生地比较明显。我的本地
+训练集达到了0.988的auc，但是在kaggle的公榜上却仅获得了0.984的auc值。\\
+
+验证集如果很大，会导致训练集过小，训练结果也不佳。当我把验证集取到30\%-40\%时，会发现本地的auc和
+kaggle公榜的auc比较接近，但均不能超过0.984。\\
+
+最终我确定了验证集为10\%，它能在保证训练集较多的情况下，留出一定的验证集。这个设定让我获得了榜单
+的最好成绩。
+\subsubsection{叶子结点数}
+叶子结点数太小时，会导致欠拟合。但如果叶子节点数太大，会在发生严重的过拟合现象。经过试验发现，
+叶子结点数基本决定了最终结果的好坏。\\
+
+模型最后为每个子树采用了160个叶子结点。获得了榜单的最好成绩。
+% \begin{appendices}
+% \section{参考文献} \label{sec:reference}
+% \section{伪代码补充} \label{sec:file}
+
+% \end{appendices}
+\end{document}
