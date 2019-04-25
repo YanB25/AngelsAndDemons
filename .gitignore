@@ -375,3 +375,6 @@ TSWLatexianTemp*
 
 # standalone packages
 *.sta
+
+/**/*.preprocess.*
+/**/*.gbm*

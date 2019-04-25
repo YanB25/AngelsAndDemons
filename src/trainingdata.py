@@ -39,25 +39,37 @@ def readSubmitTemplate():
 
 
 def getPreProcessed():
-    train, test = readData()
+    try:
+        print('load from file')
+        pre_processed_train = pd.read_csv('train.preprocess.csv')
+        pre_processed_test = pd.read_csv('test.preprocess.csv')
+        print(len(pre_processed_test.columns))
+        print(len(pre_processed_train.columns))
+        return pre_processed_train, pre_processed_test
+    except:
+        print('calculating.')
+        train, test = readData()
 
-    # before_hook(test)
+        # before_hook(test)
 
-    dataset = [train, test]
+        dataset = [train, test]
 
-    fillEmpty(dataset)
-    
-    split209Datatime(dataset)
-    split247Dash(dataset)
-    
-    string2int(dataset)
-    filterAllSameCols(dataset)
+        fillEmpty(dataset)
+        
+        split209Datatime(dataset)
+        split247Dash(dataset)
+        
+        string2int(dataset)
+        filterAllSameCols(dataset)
 
-    dropId(dataset)
+        dropId(dataset)
 
-    scaleToStandard(dataset)
+        scaleToStandard(dataset)
 
-    return tuple(dataset)
+        dataset[0].to_csv('train.preprocess.csv', index=False)
+        dataset[1].to_csv('test.preprocess.csv', index=False)
+
+        return tuple(dataset)
 
 
 if __name__ == '__main__':

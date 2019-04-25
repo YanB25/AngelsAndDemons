@@ -72,21 +72,22 @@ def lightgbm_clissify(trainX, trainY, testX, sss):
             'objective': 'binary',
             'metric': {'auc'},
             'num_leaves': 160,
-            # 'learning_rate': 0.05,
+            'learning_rate': 0.05,
             'feature_fraction': 0.9,
             'bagging_fraction': 0.8,
             'bagging_freq': 5,
-            'verbose': 0
         }
 
         gbm = lgb.train(
             params, 
             lgb_train, 
-            learning_rates=lambda iter: 0.1 * (0.995 ** (iter / 10)),
-            # learning_rates=lambda iter: 0.05,
+            # learning_rates=lambda iter: 0.1 * (0.995 ** (iter / 10)),
+            learning_rates=lambda iter: 0.05,
             num_boost_round=3000, 
             valid_sets=lgb_eval, 
-            early_stopping_rounds=100)
+            early_stopping_rounds=100,
+            nfold=10,
+            verbose_eval=-1)
 
         print('saving models ...')
         gbm.save_model('model/{}-model.gbm.txt'.format(times))
@@ -100,7 +101,34 @@ def lightgbm_clissify(trainX, trainY, testX, sss):
     print('auc is {}'.format(auc))
 
 
-    
+def lightgbm_find_param(trainX, trainY, testX, sss):
+    lgb_train = lgb.Dataset(trainX, trainY)
+    print('numleaves, auc, std')
+
+    for num_leaves in range(100, 200, 10):
+        params = {
+            'boosting_type': 'gbdt',
+            'objective': 'binary',
+            'metric': {'auc'},
+            'num_leaves': num_leaves,
+            'learning_rate': 0.05,
+            'feature_fraction': 0.9,
+            'bagging_fraction': 0.8,
+            'bagging_freq': 5,
+            'boosting': 'dart'
+        }
+
+        res = lgb.cv(
+            params, 
+            lgb_train, 
+            num_boost_round=1000, 
+            # early_stopping_rounds=100,
+            nfold=5,
+            verbose_eval=-1)
+
+        auc_mean = np.mean(res['auc-mean'])
+        auc_std = np.mean(res['auc-stdv'])
+        print(num_leaves, auc_mean, auc_std)
 
 
 if __name__ == '__main__':
@@ -115,5 +143,6 @@ if __name__ == '__main__':
 
     # sklearn_clissifiers(trainX, trainY, testX, sss)
 
-    lightgbm_clissify(trainX, trainY, testX, sss)
+    # lightgbm_clissify(trainX, trainY, testX, sss)
+    lightgbm_find_param(trainX, trainY, testX, sss)
 
