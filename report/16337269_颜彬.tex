@@ -561,6 +561,7 @@ def scaleToStandard(dataset):
 \subsection{模型训练}\label{subsec:train}
 本实验主要采用lightGBM模型来进行训练，并取得了比较好的拟合效果。
 在public榜单上超过2天获得auc为0.98652的成绩(rank 5)。
+
 \section{相关解释}
 lightGBM是 GBDT  的一个
 更优良的实现。\\
@@ -573,6 +574,72 @@ GBDT(Gradient Boosting Decision Tree)是机器学习中的一个著名
 lightGBM(light Gradient Boosting Machin)是一个实现了GBDT
 算法的框架。它具有更快的训练速度，更低的内存消耗和更好的准确率
 等优势。
+\subsection{模型优势}
+模型的优势有很多，这里仅摘取几个比较关键的点。
+\subsubsection{决策树的拓展方式}
+lightGBM允许决策树的增长是按叶子结点拓展的方式增长的，而大部分决策树算法的增长
+是按层拓展的。前者的优势在于拓展是``按需拓展''的，它永远会优先拓展最需要拓展的结点，
+而后者可能有许多拓展是不必要的，这既减慢了训练速度，又大大增加了过拟合的风险。\\
+
+lightGBM由于是采用按叶子结点的方式进行拓展的，故其更有可能生成一棵很不平衡的树。
+所以lightGBM引入了max\_depth来防止过拟合。
+\subsubsection{数据和特征的并行}
+lightGBM可以采用并行的方式大大加快训练速度。与传统的按列划分feature不同，lightGBM
+并不会让不同的worker获得不同的特征。lightGBM会保证每个worker都拥有完整的feature。
+lightGBM在各个worker计算出局部的最优数据划分后，会把情况汇总，进行一个全局的数据
+最优划分。\\
+
+同时，lightGBM会在算法层面进行优化，提高数据并行的性能。
+
+\subsection{训练方法}
+\subsubsection{提高精度的方法}
+为了提高训练的精度，应该尽可能地设置更大的num\_leaves，这会让决策树对数据的划分
+更加精细(当然也会让模型更容易过拟合)。\\
+
+同时，还应该调低学习率并调高迭代次数。调低学习率是为了以更小的步伐接近最优点，
+从而能与真正的最优点更加接近。由于学习率更低了，所以需要更多的迭代次数。
+
+\subsubsection{调参方法}
+使用交叉验证的方法来寻找参数。lightGBM自带cv函数，可以自动进行n\_fold的交叉
+验证。通过交叉验证得到的auc准确率应该能最大程度地接近真实的auc准确率。故可以
+在进行交叉验证的基础上使用网格搜索，找到最优参数。\\
+
+调参代码如\autoref{lst:tuning}所示。大部分参数已经通过前期的试验基本确定，
+直接选取到最优值。主要需要调的参数是num\_leaves。使用for循环进行遍历，
+尝试不同的参数，并将试验得到的auc作为输出。1
+
+\begin{figure}[!hbt]
+\begin{itemize}
+\item[] \begin{lstlisting}[style=mypython, label=lst:tuning, caption=调参方法]
+for num_leaves in range(100, 200, 10):
+    params = {
+        'boosting_type': 'gbdt',
+        'objective': 'binary',
+        'metric': {'auc'},
+        'num_leaves': num_leaves,
+        'learning_rate': 0.05,
+        'feature_fraction': 0.9,
+        'bagging_fraction': 0.8,
+        'bagging_freq': 5,
+        'boosting': 'dart'
+    }
+
+    res = lgb.cv(
+        params, 
+        lgb_train, 
+        num_boost_round=1000, 
+        # early_stopping_rounds=100,
+        nfold=5,
+        verbose_eval=-1)
+
+    auc_mean = np.mean(res['auc-mean'])
+    auc_std = np.mean(res['auc-stdv'])
+    print(num_leaves, auc_mean, auc_std)
+\end{lstlisting}
+\end{itemize}
+\end{figure}
+
+
 \subsection{过拟合的防止}
 过拟合的防止方式有很多种。
 \subsubsection{验证集}
